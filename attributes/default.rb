@@ -8,5 +8,6 @@
 #
 
 default['rehost-munin']['packages'] = [ "munin-node" ]
+default['rehost-munin']['packages-master'] = [ "munin" ]
 default['rehost-munin']['munin-node'] = "munin-node"
 default['rehost-munin']['allowed_hosts'] = "127.0.0.1"
