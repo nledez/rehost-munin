@@ -1,7 +1,8 @@
 require 'chefspec'
 
 describe 'rehost-munin::default' do
-  let (:chef_run) { ChefSpec::ChefRunner.new.converge 'rehost-munin::default' }
+  chef_run = ChefSpec::ChefRunner.new
+  chef_run.converge 'rehost-munin::default'
 
   it 'should deploy a munin node' do
     runner = expect(chef_run)
