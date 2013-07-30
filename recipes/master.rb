@@ -22,3 +22,17 @@ template "/etc/munin/munin.conf" do
     :hostname => node['fqdn']
   })
 end
+
+template "/etc/nginx/sites-available/munin" do
+  source "munin.nginx.erb"
+  mode '0444'
+  owner 'root'
+  group 'root'
+  variables({
+    :vhost => node['vhost']
+  })
+end
+
+link "/etc/nginx/sites-enabled/munin" do
+  to "/etc/nginx/sites-available/munin"
+end
