@@ -23,7 +23,7 @@ describe 'rehost-munin::default' do
 
   it "should customize munin-node address" do
     chef_run2 = ChefSpec::ChefRunner.new
-    chef_run2.node.set['rehost-munin']['allowed_hosts'] = "192.168.1.1"
+    chef_run2.node.set['rehost-munin']['allowed_host'] = "192.168.1.1"
     chef_run2.converge 'rehost-munin::default'
 
     runner = expect(chef_run2)

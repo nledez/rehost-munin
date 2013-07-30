@@ -23,7 +23,7 @@ template "/etc/munin/munin-node.conf" do
   owner 'root'
   group 'root'
   variables({
-    :allowed_hosts => node['rehost-munin']['allowed_hosts']
+    :allowed_host => node['rehost-munin']['allowed_host']
   })
   notifies :restart, "service[#{node['rehost-munin']['munin-node']}]"
 end
