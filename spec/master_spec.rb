@@ -3,7 +3,7 @@ require 'chefspec'
 describe 'rehost-munin::master' do
   it 'should deploy a munin master' do
     chef_run = ChefSpec::ChefRunner.new
-    chef_run.node.automatic_attrs['hostname'] = 'mon.dummy.tld'
+    chef_run.node.automatic_attrs['fqdn'] = 'mon.dummy.tld'
     chef_run.converge 'rehost-munin::master'
 
     runner = expect(chef_run)
@@ -21,7 +21,7 @@ describe 'rehost-munin::master' do
 
   it "should change munin-master hostname" do
     chef_run2 = ChefSpec::ChefRunner.new
-    chef_run2.node.automatic_attrs['hostname'] = 'dummy.other.mock'
+    chef_run2.node.automatic_attrs['fqdn'] = 'dummy.other.mock'
     chef_run2.converge 'rehost-munin::master'
 
     runner = expect(chef_run2)

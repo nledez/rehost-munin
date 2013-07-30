@@ -19,6 +19,6 @@ template "/etc/munin/munin.conf" do
   owner 'root'
   group 'root'
   variables({
-    :hostname => node['hostname']
+    :hostname => node['fqdn']
   })
 end
