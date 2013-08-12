@@ -29,7 +29,7 @@ template "/etc/nginx/sites-available/munin" do
   owner 'root'
   group 'root'
   variables({
-    :vhost => node['vhost']
+    :vhost => node['rehost-munin']['vhost']
   })
 end
 

@@ -1,19 +1,19 @@
 server{
         listen 80;
-	server_name <%= @vhost %>;
+        server_name <%= @vhost %>;
 
         root /var/cache/munin/www;
         index index.php index.html index.htm;
 
-	if (-f $document_root/system/maintenance.html) {
-		return 503;
-	}
+        if (-f $document_root/system/maintenance.html) {
+          return 503;
+        }
 
-	error_page 503 @maintenance;
-	location @maintenance {
-		rewrite  ^(.*)$  /system/maintenance.html last;
-		break;
-	}
+        error_page 503 @maintenance;
+        location @maintenance {
+          rewrite  ^(.*)$  /system/maintenance.html last;
+          break;
+        }
 
         location / {
         #        # This is cool because no php is touched for static content.
