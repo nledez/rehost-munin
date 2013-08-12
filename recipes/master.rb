@@ -19,7 +19,7 @@ end
 
 template "/etc/munin/munin.conf" do
   source "munin.conf.erb"
-  mode '0440'
+  mode '0444'
   owner 'root'
   group 'root'
   variables({

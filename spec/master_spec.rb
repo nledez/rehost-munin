@@ -19,7 +19,7 @@ describe 'rehost-munin::master' do
     runner.to create_file "/etc/munin/munin.conf"
     file = chef_run.template("/etc/munin/munin.conf")
     expect(file).to be_owned_by('root', 'root')
-    expect(file.mode).to eq("0440")
+    expect(file.mode).to eq("0444")
     runner.to create_file_with_content "/etc/munin/munin.conf", /^\[mon\.dummy\.tld\]$/
 
     file = chef_run.template("/etc/nginx/sites-available/munin")
