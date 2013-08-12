@@ -13,6 +13,9 @@ describe 'rehost-munin::master' do
       runner.to install_package p
     end
 
+    runner.to set_service_to_start_on_boot 'nginx'
+    runner.to start_service 'nginx'
+
     runner.to create_file "/etc/munin/munin.conf"
     file = chef_run.template("/etc/munin/munin.conf")
     expect(file).to be_owned_by('root', 'root')

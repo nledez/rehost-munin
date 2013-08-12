@@ -13,6 +13,10 @@ node['rehost-munin']['packages-master'].each do |pkg|
   end
 end
 
+service node['rehost-munin']['nginx-service'] do
+  action [:start, :enable]
+end
+
 template "/etc/munin/munin.conf" do
   source "munin.conf.erb"
   mode '0440'
