@@ -9,7 +9,7 @@ describe 'rehost-munin::master' do
 
     runner = expect(chef_run)
 
-    [ "munin", "nginx" ].each do |p|
+    [ "munin", "nginx", "apache2-utils" ].each do |p|
       runner.to install_package p
     end
 
