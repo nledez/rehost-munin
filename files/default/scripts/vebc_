@@ -1,0 +1,110 @@
+#!/bin/sh
+#
+# Munin's plugin to monitor OpenVZ bean counters.
+#
+# $Log$
+# Revision 1.3 2007/07/19 12:57:00 Jan Tomasek <jan@tomasek.cz>
+# * rewrited to work with /proc/bc/<VEID>/resources instead of
+# /proc/user_beancounters, that simplified code and result
+# is also bit faster.
+# * added references to OpenVZ wiki
+# Revision 1.3.1 2008/05/13 01:26:00 Daniel Hahler <http://daniel.hahler.de/>
+# * Minor fixes
+#   - "exit 0" in "config" block
+#   - Use "echo ${str%% *}" in "suggest", instead of "vals=($str); echo ${vals[0]}"
+#
+# Revision 1.3.2 2008/08/09 12:30:00 Christian Rubbert <crubbert@xrc.de>
+# * Feature
+#   - If only 1 variable is graphed, also display maxheld, barrier and limit
+#
+# Original revision taken from:
+# http://wiki.openvz.org/Monitoring_openvz_resources_using_munin
+#
+#%# family=auto
+#%# capabilities=autoconf suggest
+ 
+VEID=`basename $0 | sed -e 's/^vebc_.*_//'`;
+STATS=`basename $0 | sed -e 's/^vebc_//' -e 's/_[0-9]*$//' -e 's/_/ /g'`
+x=0; STATSCNT=`for i in $STATS; do x=$[$x+1]; done; echo $x`
+ 
+if [ "$1" = "autoconf" ]; then
+    if [ -r /proc/bc/0/resources ]; then
+        echo yes
+        exit 0
+    else
+        echo "no (/proc/bc/0/resources not found)"
+        exit 1
+    fi
+fi
+ 
+if [ "$1" = "suggest" ]; then
+    if [ -r /proc/bc/0/resources ]; then
+        cat /proc/bc/0/resources | while read str; do
+        # Print everything before " "
+        echo ${str%% *}
+        done
+        exit 0
+    else
+        exit 1
+    fi
+fi
+ 
+if [ ! -f /proc/bc/$VEID/resources ]; then
+    exit 0;
+fi
+ 
+if [ "$1" = "config" ]; then
+    #echo "graph_order down up"
+    echo "graph_title VE$VEID: $STATS"
+    echo "graph_vlabel bean counters"
+    echo "graph_category VE$VEID"
+ 
+    # Note on URLs. General graph info is by munin version 1.2.5
+    # accepted even with HTML code. But for value.info it escapes URL,
+    # I expect that authors of munin will note that in future and put
+    # escaping even for graph.info.
+    echo "graph_info VE bean counters info. Documentation of the OpenVZ resource management is located at <a href=\"
+http://wiki.openvz.org/UBC\">http://wiki.openvz.org/UBC</a>."
+ 
+    cat /proc/bc/$VEID/resources | while read name value top warn max stuff ; do
+        for statname in $STATS; do
+        if [ "$name" = "$statname" ]; then
+            URL="http://wiki.openvz.org/$name"
+            if [ "$warn" = "0" ]; then
+                warn=$max
+            fi
+            echo $name.label $name
+            echo $name.warning $warn
+            echo $name.critical $max
+            echo $name.info Description of this resource is located at $URL
+        fi
+        done
+    done
+ 
+    if [ "$STATSCNT" = "1" ]; then
+        echo maxheld.label Maxheld
+        echo maxheld.draw LINE2
+        echo maxheld.info Maximum value
+        echo barrier.label Barrier
+        echo barrier.draw LINE2
+        echo barrier.info Barrier
+        echo limit.label Limit
+        echo limit.draw LINE2
+        echo limit.info Limit
+    fi
+    exit 0
+fi;
+ 
+cat /proc/bc/$VEID/resources | while read name value top warn max stuff ; do
+    for statname in $STATS; do
+    if [ "$name" = "$statname" ]; then
+        echo $name".value "$value;
+ 
+if [ "$STATSCNT" = "1" ]; then
+    echo maxheld.value $top
+    echo barrier.value $warn
+    echo limit.value $max 
+fi
+    fi
+    done
+done
