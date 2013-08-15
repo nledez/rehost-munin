@@ -11,7 +11,12 @@ describe 'rehost-munin::nginx' do
       runner.to install_package p
     end
 
-    expect(chef_run.link("/etc/munin/plugins/nginx_request")).to link_to "/usr/share/munin/plugins/nginx_request"
-    expect(chef_run.link("/etc/munin/plugins/nginx_status")).to link_to "/usr/share/munin/plugins/nginx_status"
+    link = chef_run.link("/etc/munin/plugins/nginx_request")
+    expect(link).to link_to "/usr/share/munin/plugins/nginx_request"
+    expect(link).to notify "service[munin-node]", :restart
+
+    link = chef_run.link("/etc/munin/plugins/nginx_status")
+    expect(link).to link_to "/usr/share/munin/plugins/nginx_status"
+    expect(link).to notify "service[munin-node]", :restart
   end
 end
