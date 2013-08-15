@@ -9,11 +9,11 @@
 
 include_recipe "rehost-munin"
 
-#node['rehost-munin']['packages-postgres'].each do |pkg|
-#  package pkg do
-#    action :install
-#  end
-#end
+node['rehost-munin']['packages-postgres'].each do |pkg|
+  package pkg do
+    action :install
+  end
+end
 
 link "/etc/munin/plugins/postgres_bgwriter" do
   to "/usr/share/munin/plugins/postgres_bgwriter"

@@ -5,11 +5,11 @@ describe 'rehost-munin::postgres' do
     chef_run = ChefSpec::ChefRunner.new
     chef_run.converge 'rehost-munin::postgres'
 
-    #runner = expect(chef_run)
+    runner = expect(chef_run)
 
-    #[ "liblwp-useragent-determined-perl" ].each do |p|
-      #runner.to install_package p
-    #end
+    [ "libdbd-pg-perl" ].each do |p|
+      runner.to install_package p
+    end
 
     link = chef_run.link("/etc/munin/plugins/postgres_bgwriter")
     expect(link).to link_to "/usr/share/munin/plugins/postgres_bgwriter"
