@@ -7,6 +7,8 @@ describe 'rehost-munin::openvz' do
 
     runner = expect(chef_run)
 
+    runner.to create_directory "/usr/local/share/munin/plugins"
+
     runner.to create_cookbook_file "/usr/local/share/munin/plugins/vebc_"
     file = chef_run.cookbook_file("/usr/local/share/munin/plugins/vebc_")
     expect(file).to be_owned_by('root', 'root')

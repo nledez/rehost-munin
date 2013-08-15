@@ -9,6 +9,11 @@
 
 include_recipe "rehost-munin"
 
+directory "/usr/local/share/munin/plugins" do
+  action :create
+  recursive true
+end
+
 [ "vebc_", "vebc-install" ].each do |f|
   cookbook_file "/usr/local/share/munin/plugins/#{f}" do
     source "scripts/#{f}"
