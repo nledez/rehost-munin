@@ -41,6 +41,7 @@ GEM
     formatador (0.2.4)
     gherkin (2.11.8)
       multi_json (~> 1.3)
+    growl (1.0.3)
     guard (1.8.2)
       formatador (>= 0.2.4)
       listen (>= 1.0.0)
@@ -125,5 +126,7 @@ PLATFORMS
 DEPENDENCIES
   chefspec
   foodcritic
+  growl
   guard
   guard-rspec
+  rb-fsevent (~> 0.9.1)
