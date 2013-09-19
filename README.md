@@ -7,7 +7,8 @@ This cookbook makes your favorite breakfast sandwhich.
 
 Build Status
 ------------
-[![Build Status](https://travis-ci.org/nledez/rehost-nagios.png)](https://travis-ci.org/nledez/rehost-nagios)
+[![Build
+Status](https://travis-ci.org/nledez/rehost-munin.png)](https://travis-ci.org/nledez/rehost-munin)
 
 Requirements
 ------------
